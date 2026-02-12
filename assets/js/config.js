@@ -26,12 +26,18 @@ const CONFIG = {
     ],
     extraTeaseAfter: 8,
 
+    flowers: {
+        count: 45,
+        emojis: ['🌸', '🌺', '🌷', '💐', '🌹'],
+        durMin: 1.4,
+        durMax: 3.0,
+    },
+
     noButton: {
         edgePadding: 12,
         safePadding: 30,
+        minDistance: 150,
         maxTries: 25,
         transitionDuration: '350ms',
     },
-
-    minDesktopWidth: 820,
 };

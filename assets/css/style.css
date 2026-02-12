@@ -46,6 +46,27 @@ body {
     z-index: 1;
 }
 
+/* No-button shake */
+@keyframes shake {
+
+    0%,
+    100% {
+        translate: 0 0;
+    }
+
+    33% {
+        translate: -4px 3px;
+    }
+
+    66% {
+        translate: 4px -2px;
+    }
+}
+
+.btn-no.shaking {
+    animation: shake 160ms ease;
+}
+
 /* Sparkles background */
 @keyframes sparkle {
 
@@ -144,9 +165,10 @@ body {
 }
 
 .subtitle {
+    padding-top: 10px;
     margin: 0 0 18px;
     color: var(--muted);
-    font-size: 20px;
+    font-size: 22px;
     line-height: 1.45;
     text-align: center;
 }
@@ -180,7 +202,7 @@ body {
 .btn-no {
     background: var(--no);
     color: var(--text);
-    border: 1px solid rgba(220, 130, 150, 0.35);
+    border: 2px solid rgba(220, 130, 150, 0.6);
 }
 
 .btn-no:hover {
@@ -195,12 +217,76 @@ body {
     min-height: 50px;
 }
 
-.btn-ghost {
-    background: var(--ghost);
-    color: var(--text);
-    border: 1px solid rgba(220, 130, 150, 0.3);
+.spacer {
+    height: 40px;
 }
 
-.btn-ghost:hover {
-    background: var(--ghost-hover);
+#view-success .actions {
+    min-height: 30px;
+}
+
+.btn-again {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: color 160ms ease, background 160ms ease;
+}
+
+.btn-again:hover {
+    color: var(--text);
+    background: rgba(255, 182, 193, 0.2);
+}
+
+.mobile-img {
+    display: block;
+    margin: 0 auto 16px;
+    max-width: 200px;
+    border-radius: 12px;
+}
+
+#view-success {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Flower burst on success */
+@keyframes flowerRise {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-500px) translateX(var(--drift)) rotate(var(--spin));
+        opacity: 0;
+    }
+}
+
+.flower-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.flower-petal {
+    position: absolute;
+    bottom: -10px;
+    left: var(--x);
+    font-size: var(--size);
+    pointer-events: none;
+    animation: flowerRise var(--dur) ease-out var(--delay) forwards;
+}
+
+.success-gif {
+    display: block;
+    margin: 0 auto 16px;
+    max-width: 360px;
+    border-radius: 12px;
 }

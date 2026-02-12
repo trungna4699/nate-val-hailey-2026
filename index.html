@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Valentine?</title>
+    <title>Va lung tung</title>
     <link rel="stylesheet" href="./assets/css/style.css" />
     <script defer src="./assets/js/config.js"></script>
     <script defer src="./assets/js/app.js"></script>
@@ -13,14 +13,15 @@
 
 <body>
     <div class="sparkles" id="sparkles"></div>
+    <div class="flower-layer" id="flower-layer"></div>
     <main class="page">
         <!-- Mobile / small-screen fallback -->
         <section id="view-mobile" class="card view hidden" aria-live="polite">
-            <h1 class="title">One quick thing 💌</h1>
+            <img class="mobile-img" src="./assets/img/lazy.png" alt="Lazy" />
+            <h1 class="title">Told ya 💌</h1>
             <p class="subtitle">
-                This one is best on a laptop/desktop so the “No” button can run away 😄
+                Tui biết bạn lười mà, dậy mở trên laptop đi 🙄
             </p>
-            <p class="subtitle">Open this link on your computer and try again.</p>
         </section>
 
         <!-- Question view -->
@@ -52,12 +53,15 @@
 
         <!-- Success view -->
         <section id="view-success" class="card view hidden" aria-live="polite">
-            <h1 class="title">I knew it 😌💖</h1>
-            <p class="subtitle">Happy Valentine’s!</p>
+            <img class="success-gif" src="./assets/img/success_grinning.gif" alt="Yay!" />
+            <h1 class="title">I knew you'd say yes! 😌💖</h1>
+            <p class="subtitle">Happy Valentine Day 🎉</p>
+
+            <div class="spacer"></div>
 
             <div class="actions">
-                <button id="btn-again" class="btn btn-ghost" type="button">
-                    Play again
+                <button id="btn-again" class="btn-again" type="button">
+                    ↻ Thử lại hem 😆
                 </button>
             </div>
         </section>

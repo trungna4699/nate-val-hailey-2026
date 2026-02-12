@@ -26,8 +26,8 @@
     const isProbablyDesktop = () => {
         const hasHover = window.matchMedia?.('(hover: hover)').matches;
         const hasFinePointer = window.matchMedia?.('(pointer: fine)').matches;
-        const wideEnough = window.innerWidth >= CONFIG.minDesktopWidth;
-        return hasHover && hasFinePointer && wideEnough;
+        const isLandscape = window.innerWidth > window.innerHeight;
+        return (hasHover && hasFinePointer) || isLandscape;
     };
 
     const views = {
@@ -56,8 +56,17 @@
     const recentTeases = [];
 
     const setView = (which) => {
+        // Snapshot the current card height before hiding, so the next view can match it
+        const currentVisible = Object.values(views).find((el) => !el.classList.contains('hidden'));
+        const prevHeight = currentVisible ? currentVisible.offsetHeight : 0;
+
         Object.values(views).forEach((el) => el.classList.add('hidden'));
         views[which].classList.remove('hidden');
+
+        // Match the previous view's height to prevent the page from jumping
+        if (prevHeight > 0) {
+            views[which].style.minHeight = `${prevHeight}px`;
+        }
     };
 
     /**
@@ -99,6 +108,11 @@
             return !separated;
         };
 
+        // Current No position (relative to section) — must move far from here
+        const curNoX = noRect.left - sectionRect.left;
+        const curNoY = noRect.top - sectionRect.top;
+        const minDist = CONFIG.noButton.minDistance;
+
         let x = minX;
         let y = minY;
 
@@ -107,7 +121,8 @@
             const rx = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
             const ry = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
 
-            if (!intersectsSafeZone(rx, ry)) {
+            const dist = Math.hypot(rx - curNoX, ry - curNoY);
+            if (!intersectsSafeZone(rx, ry) && dist >= minDist) {
                 x = rx;
                 y = ry;
                 break;
@@ -146,10 +161,35 @@
         btnNo.style.top = `${y}px`;
     };
 
+    const flowerLayer = document.getElementById('flower-layer');
+
+    const spawnFlowers = () => {
+        // Remove any leftover petals
+        flowerLayer.querySelectorAll('.flower-petal').forEach((el) => el.remove());
+
+        const { count, emojis, durMin, durMax } = CONFIG.flowers;
+        for (let i = 0; i < count; i++) {
+            const el = document.createElement('span');
+            el.className = 'flower-petal';
+            el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            el.style.setProperty('--x', `${Math.random() * 100}%`);
+            el.style.setProperty('--size', `${28 + Math.random() * 24}px`);
+            el.style.setProperty('--dur', `${durMin + Math.random() * (durMax - durMin)}s`);
+            el.style.setProperty('--delay', `${Math.random() * 0.5}s`);
+            el.style.setProperty('--drift', `${(Math.random() - 0.5) * 180}px`);
+            el.style.setProperty('--spin', `${(Math.random() - 0.5) * 360}deg`);
+            el.addEventListener('animationend', () => el.remove(), { once: true });
+            flowerLayer.appendChild(el);
+        }
+    };
+
     const resetGame = () => {
         noHoverCount = 0;
         recentTeases.length = 0;
         tease.textContent = defaultTease;
+
+        // Clear min-height from all views so they size naturally
+        Object.values(views).forEach((el) => el.style.minHeight = '');
 
         // Return both buttons to the flex row
         if (btnYes.parentNode !== btnRow) {
@@ -185,13 +225,14 @@
 
         btnYes.addEventListener('click', () => {
             setView('success');
+            spawnFlowers();
         });
 
         btnAgain.addEventListener('click', () => {
             resetGame();
         });
 
-        // Run-away on hover
+        // Run-away on hover: shake briefly, then move
         btnNo.addEventListener('mouseenter', () => {
             noHoverCount += 1;
 
@@ -209,7 +250,12 @@
             if (recentTeases.length > 2) recentTeases.shift();
             tease.textContent = line;
 
-            moveNoButton();
+            // Shake, then run away
+            btnNo.classList.add('shaking');
+            btnNo.addEventListener('animationend', () => {
+                btnNo.classList.remove('shaking');
+                moveNoButton();
+            }, { once: true });
         });
 
         // If the window is resized significantly, re-place No to keep it inside bounds.
