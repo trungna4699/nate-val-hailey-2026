@@ -1,0 +1,146 @@
+/* assets/css/style.css */
+
+:root {
+    --bg: #fff0f3;
+    --card: rgba(255, 255, 255, 0.75);
+    --card-border: rgba(255, 182, 193, 0.4);
+    --text: #4a2030;
+    --muted: #9e5a6e;
+    --shadow: 0 18px 50px rgba(220, 80, 120, 0.15);
+
+    --yes: #e8456b;
+    --yes-hover: #d63a5e;
+
+    --no: rgba(255, 255, 255, 0.6);
+    --no-hover: rgba(255, 255, 255, 0.85);
+
+    --ghost: rgba(255, 182, 193, 0.25);
+    --ghost-hover: rgba(255, 182, 193, 0.45);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji",
+        "Segoe UI Emoji";
+    color: var(--text);
+    background: radial-gradient(1200px 600px at 20% 10%, rgba(255, 100, 130, 0.3), transparent 55%),
+        radial-gradient(900px 500px at 85% 30%, rgba(255, 180, 200, 0.35), transparent 60%),
+        radial-gradient(1000px 700px at 50% 85%, rgba(220, 50, 90, 0.15), transparent 60%), var(--bg);
+    display: grid;
+    place-items: center;
+}
+
+.page {
+    width: min(720px, 92vw);
+    padding: 18px;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 26px 22px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+}
+
+.view.hidden {
+    display: none;
+}
+
+.title {
+    margin: 0 0 8px;
+    font-size: 34px;
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    margin: 0 0 18px;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+.playground {
+    position: relative;
+    height: 240px;
+    border-radius: 14px;
+    border: 1px dashed rgba(220, 100, 140, 0.25);
+    background: rgba(255, 255, 255, 0.4);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+}
+
+.btn {
+    border: none;
+    border-radius: 999px;
+    padding: 12px 18px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 120ms ease, background 160ms ease, box-shadow 160ms ease;
+    will-change: transform, left, top;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-yes {
+    background: var(--yes);
+    color: rgba(0, 0, 0, 0.85);
+    box-shadow: 0 10px 25px rgba(232, 69, 107, 0.3);
+}
+
+.btn-yes:hover {
+    background: var(--yes-hover);
+}
+
+.btn-no {
+    background: var(--no);
+    color: var(--text);
+    border: 1px solid rgba(220, 130, 150, 0.35);
+
+    /* make it absolute so it can run away */
+    position: absolute;
+}
+
+.btn-no:hover {
+    background: var(--no-hover);
+}
+
+.actions {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-ghost {
+    background: var(--ghost);
+    color: var(--text);
+    border: 1px solid rgba(220, 130, 150, 0.3);
+}
+
+.btn-ghost:hover {
+    background: var(--ghost-hover);
+}
+
+.tease {
+    margin: 14px 0 0;
+    min-height: 22px;
+    color: #b05670;
+    font-size: 14px;
+}

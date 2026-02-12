@@ -1,0 +1,57 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valentine?</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <script defer src="./assets/js/app.js"></script>
+</head>
+
+<body>
+    <main class="page">
+        <!-- Mobile / small-screen fallback -->
+        <section id="view-mobile" class="card view hidden" aria-live="polite">
+            <h1 class="title">One quick thing 💌</h1>
+            <p class="subtitle">
+                This one is best on a laptop/desktop so the “No” button can run away 😄
+            </p>
+            <p class="subtitle">Open this link on your computer and try again.</p>
+        </section>
+
+        <!-- Question view -->
+        <section id="view-question" class="card view" aria-live="polite">
+            <h1 class="title">Will you be my valentine?</h1>
+            <p class="subtitle">Choose wisely 😌</p>
+
+            <div id="playground" class="playground" role="application" aria-label="Valentine choices">
+                <button id="btn-yes" class="btn btn-yes" type="button">
+                    Yes 💖
+                </button>
+
+                <!-- "No" is positioned absolutely inside playground -->
+                <button id="btn-no" class="btn btn-no" type="button">
+                    No 🙄
+                </button>
+            </div>
+
+            <p id="tease" class="tease" aria-live="polite"></p>
+        </section>
+
+        <!-- Success view -->
+        <section id="view-success" class="card view hidden" aria-live="polite">
+            <h1 class="title">I knew it 😌💖</h1>
+            <p class="subtitle">Happy Valentine’s!</p>
+
+            <div class="actions">
+                <button id="btn-again" class="btn btn-ghost" type="button">
+                    Play again
+                </button>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>
