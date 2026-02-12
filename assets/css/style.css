@@ -57,6 +57,11 @@ body {
     display: none;
 }
 
+#view-question {
+    position: relative;
+    overflow: hidden;
+}
+
 .avatars {
     display: flex;
     align-items: center;
@@ -105,19 +110,7 @@ body {
     color: var(--muted);
     font-size: 16px;
     line-height: 1.45;
-}
-
-.playground {
-    position: relative;
-    height: 240px;
-    border-radius: 14px;
-    border: 1px dashed rgba(220, 100, 140, 0.25);
-    background: rgba(255, 255, 255, 0.4);
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
+    text-align: center;
 }
 
 .btn {

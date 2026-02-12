@@ -18,13 +18,13 @@
         success: document.getElementById('view-success'),
     };
 
-    const playground = document.getElementById('playground');
     const btnYes = document.getElementById('btn-yes');
     const btnNo = document.getElementById('btn-no');
     const btnAgain = document.getElementById('btn-again');
     const tease = document.getElementById('tease');
+    const btnRow = btnYes?.parentNode;
 
-    if (!views.mobile || !views.question || !views.success || !playground || !btnYes || !btnNo || !btnAgain || !tease) {
+    if (!views.mobile || !views.question || !views.success || !btnYes || !btnNo || !btnAgain || !tease || !btnRow) {
         // If something is missing, do nothing (avoid runtime errors).
         return;
     }
@@ -46,11 +46,11 @@
     };
 
     /**
-     * Places the "No" button somewhere random inside the playground,
+     * Places the "No" button somewhere random inside the entire question section,
      * while avoiding a "safe zone" around the Yes button.
      */
     const moveNoButton = () => {
-        const containerRect = playground.getBoundingClientRect();
+        const sectionRect = views.question.getBoundingClientRect();
         const noRect = btnNo.getBoundingClientRect();
         const yesRect = btnYes.getBoundingClientRect();
 
@@ -61,34 +61,29 @@
         const padding = 12;
         const minX = padding;
         const minY = padding;
-        const maxX = Math.max(minX, Math.floor(containerRect.width - noW - padding));
-        const maxY = Math.max(minY, Math.floor(containerRect.height - noH - padding));
+        const maxX = Math.max(minX, Math.floor(sectionRect.width - noW - padding));
+        const maxY = Math.max(minY, Math.floor(sectionRect.height - noH - padding));
 
-        // Build safe zone around YES (relative to playground coordinates)
-        const yesX = yesRect.left - containerRect.left;
-        const yesY = yesRect.top - containerRect.top;
-        const safePad = 30; // "safe zone" expansion around the YES button
+        // Build safe zone around YES (relative to section coordinates)
+        const yesX = yesRect.left - sectionRect.left;
+        const yesY = yesRect.top - sectionRect.top;
+        const safePad = 30;
 
         const safeZone = {
             left: Math.max(0, Math.floor(yesX - safePad)),
             top: Math.max(0, Math.floor(yesY - safePad)),
-            right: Math.min(Math.floor(containerRect.width), Math.ceil(yesX + yesRect.width + safePad)),
-            bottom: Math.min(Math.floor(containerRect.height), Math.ceil(yesY + yesRect.height + safePad)),
+            right: Math.min(Math.floor(sectionRect.width), Math.ceil(yesX + yesRect.width + safePad)),
+            bottom: Math.min(Math.floor(sectionRect.height), Math.ceil(yesY + yesRect.height + safePad)),
         };
 
         const intersectsSafeZone = (x, y) => {
-            const left = x;
-            const top = y;
             const right = x + noW;
             const bottom = y + noH;
-
             const separated =
-                right < safeZone.left || left > safeZone.right || bottom < safeZone.top || top > safeZone.bottom;
-
+                right < safeZone.left || x > safeZone.right || bottom < safeZone.top || y > safeZone.bottom;
             return !separated;
         };
 
-        // Try random positions a few times; fall back to anything if needed.
         let x = minX;
         let y = minY;
 
@@ -103,23 +98,25 @@
                 break;
             }
 
-            // if we fail a lot, accept the last random attempt
             x = rx;
             y = ry;
         }
 
-        // Pin the Yes button in place before pulling No out of flex flow
-        if (!btnYes.style.position) {
-            btnYes.style.position = 'absolute';
-            btnYes.style.left = `${Math.floor(yesX)}px`;
-            btnYes.style.top = `${Math.floor(yesY)}px`;
+        // On first move, snapshot current position so the transition has a starting point
+        const isFirstMove = btnNo.parentNode !== views.question;
+        if (isFirstMove) {
+            const noStartX = noRect.left - sectionRect.left;
+            const noStartY = noRect.top - sectionRect.top;
+            views.question.appendChild(btnNo);
+            btnNo.style.position = 'absolute';
+            btnNo.style.left = `${Math.floor(noStartX)}px`;
+            btnNo.style.top = `${Math.floor(noStartY)}px`;
+            // Force layout so the browser registers the starting position
+            btnNo.getBoundingClientRect();
         }
 
-        // Pull out of flex flow so it can roam freely
         btnNo.style.position = 'absolute';
-
-        // Smooth-ish move
-        btnNo.style.transition = 'left 160ms ease, top 160ms ease, transform 120ms ease, background 160ms ease';
+        btnNo.style.transition = 'left 350ms ease, top 350ms ease, transform 120ms ease, background 160ms ease';
         btnNo.style.left = `${x}px`;
         btnNo.style.top = `${y}px`;
     };
@@ -128,11 +125,10 @@
         noHoverCount = 0;
         tease.textContent = defaultTease;
 
-        // Return both buttons to normal flex flow (centered side-by-side)
-        btnYes.style.position = '';
-        btnYes.style.left = '';
-        btnYes.style.top = '';
-
+        // Move No button back into the button row for flex layout
+        if (btnNo.parentNode !== btnRow) {
+            btnRow.appendChild(btnNo);
+        }
         btnNo.style.position = '';
         btnNo.style.left = '';
         btnNo.style.top = '';
