@@ -57,10 +57,47 @@ body {
     display: none;
 }
 
+.avatars {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 16px;
+}
+
+.avatar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.avatar-img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--card-border);
+    background: rgba(255, 182, 193, 0.3);
+}
+
+.avatar-name {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.avatar-connector {
+    font-size: 30px;
+    color: var(--muted);
+    padding-bottom: 20px;
+}
+
 .title {
     margin: 0 0 8px;
     font-size: 34px;
     letter-spacing: -0.02em;
+    text-align: center;
 }
 
 .subtitle {
@@ -113,9 +150,6 @@ body {
     background: var(--no);
     color: var(--text);
     border: 1px solid rgba(220, 130, 150, 0.35);
-
-    /* make it absolute so it can run away */
-    position: absolute;
 }
 
 .btn-no:hover {
@@ -136,11 +170,4 @@ body {
 
 .btn-ghost:hover {
     background: var(--ghost-hover);
-}
-
-.tease {
-    margin: 14px 0 0;
-    min-height: 22px;
-    color: #b05670;
-    font-size: 14px;
 }

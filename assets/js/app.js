@@ -31,11 +31,12 @@
 
     const teaseLines = [
         "Hmm? You sure? 😏",
-        "Nice try 😌",
         "Nope 😂",
-        "You can't pick that one 😤",
-        "Be honest 💖",
+        "Be honest 😉",
+        "Đừng né mà 🥹",
     ];
+
+    const defaultTease = 'Choose wisely 🤭';
 
     let noHoverCount = 0;
 
@@ -107,6 +108,16 @@
             y = ry;
         }
 
+        // Pin the Yes button in place before pulling No out of flex flow
+        if (!btnYes.style.position) {
+            btnYes.style.position = 'absolute';
+            btnYes.style.left = `${Math.floor(yesX)}px`;
+            btnYes.style.top = `${Math.floor(yesY)}px`;
+        }
+
+        // Pull out of flex flow so it can roam freely
+        btnNo.style.position = 'absolute';
+
         // Smooth-ish move
         btnNo.style.transition = 'left 160ms ease, top 160ms ease, transform 120ms ease, background 160ms ease';
         btnNo.style.left = `${x}px`;
@@ -115,27 +126,20 @@
 
     const resetGame = () => {
         noHoverCount = 0;
-        tease.textContent = '';
+        tease.textContent = defaultTease;
 
-        // Center-ish default placement for "No"
-        btnNo.style.left = '60%';
-        btnNo.style.top = '60%';
-        btnNo.style.transform = 'translate(-50%, -50%)';
+        // Return both buttons to normal flex flow (centered side-by-side)
+        btnYes.style.position = '';
+        btnYes.style.left = '';
+        btnYes.style.top = '';
+
+        btnNo.style.position = '';
+        btnNo.style.left = '';
+        btnNo.style.top = '';
+        btnNo.style.transform = '';
+        btnNo.style.transition = '';
 
         setView('question');
-
-        // After layout settles, replace with an actual pixel position so future moves are consistent
-        requestAnimationFrame(() => {
-            const containerRect = playground.getBoundingClientRect();
-            const noRect = btnNo.getBoundingClientRect();
-
-            const x = Math.max(12, Math.min(containerRect.width - noRect.width - 12, (containerRect.width * 0.62)));
-            const y = Math.max(12, Math.min(containerRect.height - noRect.height - 12, (containerRect.height * 0.62)));
-
-            btnNo.style.transform = 'none';
-            btnNo.style.left = `${Math.floor(x)}px`;
-            btnNo.style.top = `${Math.floor(y)}px`;
-        });
     };
 
     const init = () => {
@@ -162,9 +166,9 @@
         btnNo.addEventListener('mouseenter', () => {
             noHoverCount += 1;
 
-            if (noHoverCount <= 5) {
+            if (noHoverCount <= teaseLines.length) {
                 tease.textContent = teaseLines[noHoverCount - 1];
-            } else if (noHoverCount % 3 === 0) {
+            } else {
                 tease.textContent = teaseLines[Math.floor(Math.random() * teaseLines.length)];
             }
 

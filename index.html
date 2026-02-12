@@ -23,8 +23,20 @@
 
         <!-- Question view -->
         <section id="view-question" class="card view" aria-live="polite">
-            <h1 class="title">Will you be my valentine?</h1>
-            <p class="subtitle">Choose wisely 😌</p>
+            <div class="avatars">
+                <div class="avatar-item">
+                    <img class="avatar-img" src="./assets/img/ava1.jpeg" alt="Nate" />
+                    <span class="avatar-name">Nate 🤓</span>
+                </div>
+                <span class="avatar-connector">to</span>
+                <div class="avatar-item">
+                    <img class="avatar-img" src="./assets/img/ava2.jpeg" alt="Hailey" />
+                    <span class="avatar-name">Dịu Linh 💁‍♀️</span>
+                </div>
+            </div>
+
+            <h1 class="title">Will you be my valentine? 💗</h1>
+            <p id="tease" class="subtitle" aria-live="polite"></p>
 
             <div id="playground" class="playground" role="application" aria-label="Valentine choices">
                 <button id="btn-yes" class="btn btn-yes" type="button">
@@ -36,8 +48,6 @@
                     No 🙄
                 </button>
             </div>
-
-            <p id="tease" class="tease" aria-live="polite"></p>
         </section>
 
         <!-- Success view -->
